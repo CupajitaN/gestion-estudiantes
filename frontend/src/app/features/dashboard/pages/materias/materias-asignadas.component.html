@@ -1,0 +1,129 @@
+<!-- Encabezado superior -->
+<div class="ml-64 bg-white shadow-md px-6 py-4 border-b border-gray-200 sticky top-0 z-10">
+  <h1 class="text-2xl font-semibold text-gray-800">Materias Asignadas</h1>
+</div>
+
+<!-- Contenedor principal -->
+<div class="ml-64 p-6 bg-gray-50 min-h-screen">
+  <!-- Botón para mostrar el formulario -->
+  <div class="flex justify-end mb-6 gap-4">
+    <div class="flex flex-col sm:flex-row gap-3 items-center">
+      <button
+        class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow transition"
+        (click)="alternarFormulario()"
+      >
+        {{ mostrarFormulario ? 'Cancelar' : 'Asignar Materia' }}
+      </button>
+
+      <select
+        [(ngModel)]="pageSize"
+        (change)="cambiarPageSize(pageSize)"
+        class="px-2 py-1 border border-gray-300 rounded-md"
+      >
+        <option *ngFor="let size of pageSizeOptions" [value]="size">
+          {{ size }} por página
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Formulario de asignación-->
+  <div *ngIf="mostrarFormulario" class="bg-white p-6 rounded-xl shadow-md max-w-3xl mx-auto mb-8">
+    <h2 class="text-xl font-semibold mb-4 text-gray-700">Asignar Materia a Profesor</h2>
+    <form [formGroup]="formulario" (ngSubmit)="asignarMateria()" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Profesor</label>
+       <select formControlName="profesorId" class="w-full mt-1 border rounded p-2">
+            <option value="">Seleccione un profesor</option>
+            <option *ngFor="let prof of profesores" [value]="prof.id">
+                {{ prof.nombre }} {{ prof.apellidos }}
+            </option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Materia</label>
+        <select formControlName="materiaId" class="w-full mt-1 border rounded p-2">
+            <option value="">Seleccione una materia</option>
+            <option *ngFor="let mat of materias" [value]="mat.id">
+                {{ mat.nombre }}
+            </option>
+        </select>
+      </div>
+
+      <div class="flex items-end">
+        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full">
+          Asignar
+        </button>
+      </div>
+    </form>
+  </div>
+
+ <!-- Tabla de asignaciones -->
+    <h3 class="text-xl font-semibold mb-2 text-gray-700">Asignaciones actuales</h3>
+    <div class="overflow-x-auto">
+    <table class="min-w-full border border-gray-200 rounded-lg shadow-md">
+        <thead class="bg-gray-600 text-white text-sm font-semibold">
+        <tr>
+            <th class="text-left px-6 py-3 border-r border-gray-400">Profesor</th>
+            <th class="text-left px-6 py-3 border-r border-gray-400">Materia</th>
+            <th class="text-center px-6 py-3">Acciones</th>
+        </tr>
+        </thead>
+        <tbody class="text-sm text-gray-700">
+        <tr *ngFor="let asignacion of asignaciones" class="hover:bg-gray-50 border-t transition">
+            <td class="px-6 py-4 border-r border-gray-200">{{ asignacion.profesorNombre }}</td>
+            <td class="px-6 py-4 border-r border-gray-200">{{ asignacion.materiaNombre }}</td>
+            <td class="px-6 py-4 text-center space-x-2">
+            <button class="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 text-xs font-medium px-3 py-1 rounded"
+                    (click)="editar(asignacion)">
+                Editar
+            </button>
+            <button class="bg-red-100 hover:bg-red-200 text-red-800 text-xs font-medium px-3 py-1 rounded"
+                    (click)="eliminar(asignacion)">
+                Eliminar
+            </button>
+            </td>
+        </tr>
+        <tr *ngIf="asignaciones.length === 0">
+            <td colspan="2" class="px-6 py-4 text-center text-gray-500 italic">
+            No hay materias asignadas aún.
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+
+    <div class="mt-8 flex justify-center items-center space-x-2">
+    <div class="flex items-center space-x-2">
+      <button
+        [disabled]="page === 1"
+        (click)="cambiarPagina(page - 1)"
+        class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+      >
+        Anterior
+      </button>
+
+      <ng-container *ngFor="let p of totalPaginas">
+        <button
+          (click)="cambiarPagina(p)"
+          [ngClass]="{
+            'bg-blue-500 text-white': page === p,
+            'bg-gray-200 text-gray-700 hover:bg-gray-300': page !== p
+          }"
+          class="px-3 py-1 rounded"
+        >
+          {{ p }}
+        </button>
+      </ng-container>
+
+      <button
+        [disabled]="page === totalPaginas.length"
+        (click)="cambiarPagina(page + 1)"
+        class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+      >
+        Siguiente
+      </button>
+    </div>
+  </div>
+</div>

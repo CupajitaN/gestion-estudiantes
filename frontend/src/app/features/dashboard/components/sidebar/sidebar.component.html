@@ -1,0 +1,27 @@
+<aside class="w-64 h-screen bg-gray-100 text-gray-800 fixed top-0 left-0 flex flex-col shadow-lg border-r border-gray-300">
+  <div class="text-2xl font-semibold text-center py-6 border-b border-gray-300 bg-white">
+    Panel {{ role }}
+  </div>
+
+  <nav class="flex-1 px-4 py-4 space-y-2">
+    <ng-container *ngIf="role !== 'profesor'">
+      <a routerLink="/dashboard/inicio" routerLinkActive="bg-gray-300 text-gray-900" class="block px-4 py-2 rounded hover:bg-gray-200">Inicio</a>
+    </ng-container>
+
+    <ng-container *ngIf="role === 'admin'">
+      <a routerLink="/dashboard/usuarios" routerLinkActive="bg-gray-300" class="block px-4 py-2 rounded hover:bg-gray-200">Usuarios</a>
+      <a routerLink="/dashboard/materias" routerLinkActive="bg-gray-300" class="block px-4 py-2 rounded hover:bg-gray-200">Materias</a>
+      <a routerLink="/dashboard/materias-asignadas" routerLinkActive="bg-gray-300" class="block px-4 py-2 rounded hover:bg-gray-200">Materias Asignadas</a>
+    </ng-container>
+
+    <ng-container *ngIf="role === 'estudiante'">
+      <a routerLink="/dashboard/mis-materias" routerLinkActive="bg-gray-300" class="block px-4 py-2 rounded hover:bg-gray-200">Mis Materias</a>
+    </ng-container>
+
+    <ng-container *ngIf="role === 'profesor'">
+      <a routerLink="/dashboard/ver-materias" routerLinkActive="bg-gray-300" class="block px-4 py-2 rounded hover:bg-gray-200">Ver Materias Asignadas</a>
+    </ng-container>
+  </nav>
+
+  <button (click)="logout()" class="bg-red-500 hover:bg-red-600 mx-4 my-4 py-2 rounded text-white transition">Salir</button>
+</aside>

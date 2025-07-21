@@ -1,0 +1,57 @@
+<!-- Contenedor general -->
+<div class="ml-64 p-6 bg-gray-50 min-h-screen">
+  <div class="bg-white border border-gray-200 rounded-2xl shadow-lg p-6 w-full max-w-4xl mx-auto">
+    <h2 class="text-2xl font-semibold mb-6 text-gray-800 text-center">Materias Disponibles</h2>
+
+    <!-- Créditos -->
+    <div class="text-center mb-4">
+    <p class="text-gray-700 text-sm">
+        <strong>Créditos Máximos:</strong> {{ creditosMaximos }} &nbsp;&nbsp;
+        <strong>Créditos Utilizados:</strong> {{ creditosUtilizados + creditosEnProceso }}
+    </p>
+    </div>
+
+    <!-- Grid de materias -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div
+        *ngFor="let materia of materiasDisponibles"
+        class="border border-gray-300 rounded-lg p-4 hover:shadow transition"
+      >
+        <label class="flex items-center space-x-3">
+          <input
+            type="checkbox"
+            [checked]="materiasSeleccionadas.includes(materia.id)"
+            (change)="toggleSeleccion(materia.id)"
+            [disabled]="
+                !materiasSeleccionadas.includes(materia.id) &&
+                (materiasSeleccionadas.length >= 3 || obtenerNombreProfesor(materia.id) === 'Sin asignar')
+            "
+            class="form-checkbox h-5 w-5 text-blue-600"
+          />
+          <span class="text-gray-800 font-medium">{{ materia.nombre }}</span>
+        </label>
+        <p class="text-sm text-gray-500 mt-1">Créditos: {{ materia.creditos }}</p>
+        <p class="text-sm text-gray-500 mt-1">
+            Profesor: {{ obtenerNombreProfesor(materia.id) }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-end gap-3 pt-6">
+      <button
+        type="button"
+        (click)="cancelarFormulario()"
+        class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300"
+      >
+        Cancelar
+      </button>
+      <button
+        (click)="confirmarInscripcion()"
+        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+      >
+        Confirmar Inscripción
+      </button>
+    </div>
+  </div>
+</div>

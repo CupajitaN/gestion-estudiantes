@@ -1,0 +1,41 @@
+<!-- Encabezado superior -->
+<div class="ml-64 bg-white shadow-md px-6 py-4 border-b border-gray-200 sticky top-0 z-10">
+  <h1 class="text-2xl font-semibold text-gray-800">Mis Materias</h1>
+</div>
+
+<!-- Contenedor principal -->
+<div class="ml-64 p-6 bg-gray-50 min-h-screen">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-bold text-gray-800">Materias Inscritas</h2>
+        <button
+            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            (click)="abrirFormulario()">
+            Inscribir Materias
+        </button>
+    </div>
+
+    <!-- Mostrar formulario si está activo -->
+    <app-inscribir-materias
+    *ngIf="formularioVisible"
+    (materiasInscritas)="actualizarListado()"
+    (cancelar)="ocultarFormulario()">
+    </app-inscribir-materias>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full border border-gray-200 rounded-lg shadow-md">
+      <thead class="bg-gray-600 text-white text-sm font-semibold">
+        <tr>
+          <th class="text-left px-6 py-3">Nombre</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm text-gray-700">
+        <tr *ngFor="let materia of materias" class="hover:bg-gray-50 border-t transition">
+          <td class="px-6 py-4">{{ materia.nombre }}</td>
+        </tr>
+        <tr *ngIf="materias.length === 0">
+          <td colspan="2" class="text-center py-4 text-gray-500">No tienes materias inscritas</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

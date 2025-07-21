@@ -1,0 +1,99 @@
+  <!-- Encabezado superior-->
+  <div class="ml-64 bg-white shadow-md px-6 py-4 border-b border-gray-200 sticky top-0 z-10">
+    <h1 class="text-2xl font-semibold text-gray-800">Cursos</h1>
+  </div>
+
+  <!-- Contenedor principal -->
+  <div class="ml-64 p-6 bg-gray-50 min-h-screen">
+    <!-- Filtros -->
+    <div class="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+      <input
+        type="text"
+        [(ngModel)]="filtroNombre"
+        (input)="aplicarFiltros()"
+        placeholder="Buscar cursos..."
+        class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      <button
+        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition"
+        (click)="resetFiltros()"
+      >
+      Restablecer filtro
+    </button>
+
+    <select
+      [(ngModel)]="pageSize"
+      (change)="cambiarPageSize(pageSize)"
+      class="px-2 py-1 border border-gray-300 rounded-md"
+    >
+      <option *ngFor="let size of pageSizeOptions" [value]="size">
+        {{ size }} por página
+      </option>
+    </select>
+    </div>
+
+    
+    <!-- Cursos apilados -->
+    <div class="space-y-4">
+    <div
+          *ngFor="let curso of cursosFiltrados; let i = index"
+          [ngClass]="{
+            'relative border-l-4 pl-4 bg-white rounded-xl shadow p-4': true,
+            'border-blue-500': i % 4 === 0,
+            'border-green-500': i % 4 === 1,
+            'border-purple-500': i % 4 === 2,
+            'border-pink-500': i % 4 === 3
+          }"
+        >
+        <h2 class="text-lg font-bold mb-2">{{ curso.nombre }}</h2>
+        <p class="text-sm text-gray-600 mb-2">{{ curso.descripcion }}</p>
+      <span class="inline-block bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">
+          <ng-container *ngIf="role === 'admin'">
+            Estudiante: {{ curso.estudiante }} |
+          </ng-container>
+          Profesor: {{ curso.profesor }} | Categoría: {{ curso.descripcion }}
+        </span>
+        <button
+          (click)="verAlumnos(role === 'admin' ? curso.materiaId : curso.id)"
+          class="absolute bottom-4 right-4 bg-blue-600 text-white text-sm px-3 py-1 rounded hover:bg-blue-700"
+        >
+          Ver Alumnos
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="cursosFiltrados.length === 0" class="text-center text-gray-500 mt-4">
+      No se encontraron cursos.
+    </div>
+
+    <!-- Paginación -->
+    <div class="mt-8 flex justify-center items-center space-x-2">
+      <button
+        [disabled]="page === 1"
+        (click)="cambiarPagina(page - 1)"
+        class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+      >
+        Anterior
+      </button>
+
+      <ng-container *ngFor="let p of totalPaginas">
+        <button
+          (click)="cambiarPagina(p)"
+          [ngClass]="{
+            'bg-blue-500 text-white': page === p,
+            'bg-gray-200 text-gray-700 hover:bg-gray-300': page !== p
+          }"
+          class="px-3 py-1 rounded"
+        >
+          {{ p }}
+        </button>
+      </ng-container>
+
+      <button
+        [disabled]="page === totalPaginas.length"
+        (click)="cambiarPagina(page + 1)"
+        class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+      >
+        Siguiente
+      </button>
+    </div>

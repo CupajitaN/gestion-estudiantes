@@ -1,0 +1,28 @@
+<div class="ml-64 p-6 bg-gray-50 min-h-screen">
+    <button
+        class="mb-4 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+        (click)="volver()">
+        ← Volver a materias
+    </button>
+  <h2 class="text-xl font-bold mb-4 text-gray-800">Estudiantes Inscritos</h2>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full border border-gray-200 rounded-lg shadow-md">
+      <thead class="bg-gray-600 text-white text-sm font-semibold">
+        <tr>
+          <th class="text-left px-6 py-3 border-r border-gray-400">ID</th>
+          <th class="text-left px-6 py-3">Nombre Completo</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm text-gray-700">
+        <tr *ngFor="let estudiante of estudiantes" class="hover:bg-gray-50 border-t transition">
+          <td class="px-6 py-4 border-r border-gray-200">{{ estudiante.id }}</td>
+          <td class="px-6 py-4">{{ estudiante.nombre }} {{ estudiante.apellidos }}</td>
+        </tr>
+        <tr *ngIf="estudiantes.length === 0">
+          <td colspan="2" class="text-center py-4 text-gray-500">No hay estudiantes inscritos en esta materia</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

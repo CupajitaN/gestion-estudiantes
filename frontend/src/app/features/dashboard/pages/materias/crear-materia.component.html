@@ -1,0 +1,40 @@
+<div class="card p-4">
+  <h2 class="text-xl font-bold mb-4">Crear Materia</h2>
+
+  <form [formGroup]="materiaForm" (ngSubmit)="guardar()">
+    <div class="mb-4">
+      <label for="nombre" class="block font-semibold">Nombre de la materia</label>
+      <input
+        type="text"
+        id="nombre"
+        formControlName="nombre"
+        class="w-full p-2 border border-gray-300 rounded"
+      />
+      <div *ngIf="materiaForm.get('nombre')?.invalid && materiaForm.get('nombre')?.touched" class="text-red-500 text-sm">
+        El nombre es obligatorio.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="descripcion" class="block font-semibold">Descripción</label>
+      <textarea
+        id="descripcion"
+        formControlName="descripcion"
+        class="w-full p-2 border border-gray-300 rounded"
+        rows="3"
+      ></textarea>
+      <div *ngIf="materiaForm.get('descripcion')?.invalid && materiaForm.get('descripcion')?.touched" class="text-red-500 text-sm">
+        La descripción es obligatoria.
+      </div>
+    </div>
+    
+    <div class="flex gap-2">
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded" [disabled]="materiaForm.invalid">
+        Guardar
+      </button>
+      <button type="button" class="bg-gray-300 px-4 py-2 rounded" (click)="cancelarCreacion()">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>
