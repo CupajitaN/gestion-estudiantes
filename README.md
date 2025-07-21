@@ -22,3 +22,23 @@
 
 La app quedará disponible en http://localhost:4200.
 
+USUARIOS APLICATIVO
+ADMIN
+admin@correo.com
+admin
+
+ESTUDIANTE1
+camila@uni.edu
+camila123
+
+ESTUDIANTE2
+juan@uni.edu
+juan123
+
+PROFESOR1
+ana@uni.edu
+ana123
+
+PROFESOR2
+luis@uni.edu
+luis123
